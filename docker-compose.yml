@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  ifindtech-backend: 
+    build: .
+    ports: 
+      - 8000:8000
+    depends_on: 
+      - mongo
+    networks: 
+      - "isbank-network"
+    
+  mongo:
+      image: mongo
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: mongoadmin
+        MONGO_INITDB_ROOT_PASSWORD: root
+        MONGO_INITDB_ROOT_HOST: localhost
+        MONGO_INITDB_ROOT_PORT: 27017
+        MONGO_INITDB_ROOT_DB: venturahr
+      ports:
+        - "27017:27017"
+      networks: 
+        - "isbank-network"
+
+networks:
+  isbank-network:
+    driver: bridge
