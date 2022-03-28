@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 
-const AnswerSchema = new Schema({
+import { IAnswer } from '../../types/Answer';
+
+const AnswerSchema = new Schema<IAnswer>({
   date: {
     type: Date,
     required: true,
@@ -9,14 +11,8 @@ const AnswerSchema = new Schema({
     type: Number,
     required: true,
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  jobVacancy: {
-    type: Schema.Types.ObjectId,
-    ref: 'JobVacancy',
-  },
+  
+  { timestamps: true}
 });
 
 export default model('Answer', AnswerSchema);

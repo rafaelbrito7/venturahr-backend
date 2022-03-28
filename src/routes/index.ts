@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import { healthCheckRouter } from './healthCheck.routes';
+import { authRouter } from './auth.routes';
 import { userRouter } from './user.routes';
 
 const routes = Router();
 
-routes.use('/healthCheck', healthCheckRouter);
 routes.use('/user', userRouter);
+routes.use('/auth', authRouter);
 
 export { routes };

@@ -1,11 +1,8 @@
 import mongoose from 'mongoose';
 
-const connectionURL =
-  'mongodb://mongoadmin:root@localhost:27017/venturahR?authSource=admin';
-
 const mongoDbConnection = () => {
   mongoose
-    .connect(connectionURL)
+    .connect(process.env.DATABASE_URL as string)
     .then(() => {
       console.log('Successfully connected to MongoDB');
     })

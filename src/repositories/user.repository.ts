@@ -1,20 +1,37 @@
-import User from '../models/User';
-import { IUser } from '../types/User';
+import User from '../database/entities/User';
+import { IUser, IUserFields } from '../types/User';
+import { IUserRepository } from './IUserRepository';
 
-export const store = async (user: IUser) => {
-  const newUser = await User.create(user);
+class UserRepository implements IUserRepository {
+  async store(user: IUserFields): Promise<IUser> {
+    const newUser = await User.create(user);
 
-  return newUser;
-};
+    return newUser;
+  }
 
-export const findAll = async () => {
-  const users = await User.find();
+  async delete(id: string): Promise<boolean> {
+    await User.findByIdAndDelete(id);
 
-  return users;
-};
+    return true;
+  }
 
-export const findByEmail = async (email: string) => {
-  const user = await User.findOne({ email });
+  async findAll(): Promise<IUser[]> {
+    const users = await User.find<IUser>();
 
-  return user;
-};
+    return users;
+  }
+
+  async findOne(id: string): Promise<IUser | null> {
+    const user = await User.findOne({ where: { id } });
+
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    const user = await User.findOne({ where: { email } });
+
+    return user;
+  }
+}
+
+export { UserRepository };

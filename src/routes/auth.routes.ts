@@ -1,24 +1,21 @@
-import bcrypt from 'bcryptjs';
 import { Router, Request, Response } from 'express';
-import User from 'src/models/User';
 
-import { ErrorHandler } from '../helpers/errorHandler';
+import { login } from '../controllers/authController';
 
 const authRouter = Router();
 
 authRouter.post('/login', async (request: Request, response: Response) => {
+  const { email, password } = request.body;
+
   try {
-    const { email, password } = request.body;
+    const token = await login(email, password);
 
-    const user = await User.findOne({ email });
-
-    if (!user) throw ErrorHandler('User does not exist.', 403);
-
-    if (await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({
-        user_id: user.id,
-        email,
-      });
-    }
-  } catch (error) {}
+    return response
+      .status(200)
+      .json({ message: 'User logged with success!', token });
+  } catch (err) {
+    return response.status(403).json({ message: err });
+  }
 });
+
+export { authRouter };

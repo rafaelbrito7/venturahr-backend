@@ -1,4 +1,12 @@
-export interface IUser {
+import { IFieldDefault } from './FieldDefault';
+
+export enum userType {
+  Admin = 'ADMIN',
+  Contractor = 'CONTRACTOR',
+  Candidate = 'CANDIDATE',
+}
+
+interface IUserFields {
   name: string;
   address: string;
   phoneNumber: string;
@@ -7,7 +15,10 @@ export interface IUser {
   cpf?: string;
   cnpj?: string;
   socialReason?: string;
-  type: string;
-  jobVacancies?: Array<string>[];
-  token?: string;
+  type: userType;
+  createdId: string;
 }
+
+type IUser = IFieldDefault & IUserFields;
+
+export type { IUserFields, IUser };
